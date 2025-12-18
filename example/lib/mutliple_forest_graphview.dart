@@ -8,8 +8,8 @@ class MultipleForestTreeViewPage extends StatefulWidget {
   _TreeViewPageState createState() => _TreeViewPageState();
 }
 
-class _TreeViewPageState extends State<MultipleForestTreeViewPage> with TickerProviderStateMixin {
-
+class _TreeViewPageState extends State<MultipleForestTreeViewPage>
+    with TickerProviderStateMixin {
   GraphViewController _controller = GraphViewController();
   final Random r = Random();
   int nextNodeId = 1;
@@ -30,7 +30,8 @@ class _TreeViewPageState extends State<MultipleForestTreeViewPage> with TickerPr
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.siblingSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Sibling Separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Sibling Separation'),
                     onChanged: (text) {
                       builder.siblingSeparation = int.tryParse(text) ?? 100;
                       this.setState(() {});
@@ -52,7 +53,8 @@ class _TreeViewPageState extends State<MultipleForestTreeViewPage> with TickerPr
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.subtreeSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Subtree separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Subtree separation'),
                     onChanged: (text) {
                       builder.subtreeSeparation = int.tryParse(text) ?? 100;
                       this.setState(() {});
@@ -73,7 +75,8 @@ class _TreeViewPageState extends State<MultipleForestTreeViewPage> with TickerPr
                 ElevatedButton(
                   onPressed: () {
                     final node12 = Node.Id(r.nextInt(100));
-                    var edge = graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
+                    var edge =
+                        graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
                     print(edge);
                     graph.addEdge(edge, node12);
                     setState(() {});
@@ -89,28 +92,31 @@ class _TreeViewPageState extends State<MultipleForestTreeViewPage> with TickerPr
                   onPressed: _resetView,
                   child: Text('Reset View'),
                 ),
-                SizedBox(width: 8,),
-                ElevatedButton(onPressed: (){
-                  _controller.zoomToFit();
-                }, child: Text('Zoom to fit'))
+                SizedBox(
+                  width: 8,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      _controller.zoomToFit();
+                    },
+                    child: Text('Zoom to fit'))
               ],
             ),
 
             Expanded(
-              child: GraphView.builder(
-                controller: _controller,
-                graph: graph,
-                algorithm: TidierTreeLayoutAlgorithm(builder, null),
-                builder: (Node node) => Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Colors.lightBlue[100],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(node.key?.value.toString() ?? ''),
+                child: GraphView.builder(
+              controller: _controller,
+              graph: graph,
+              algorithm: TidierTreeLayoutAlgorithm(builder, null),
+              builder: (Node node) => Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue[100],
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              )
-            ),
+                child: Text(node.key?.value.toString() ?? ''),
+              ),
+            )),
           ],
         ));
   }
@@ -186,5 +192,4 @@ class _TreeViewPageState extends State<MultipleForestTreeViewPage> with TickerPr
       ..subtreeSeparation = (150)
       ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
   }
-
 }

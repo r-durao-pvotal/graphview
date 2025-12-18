@@ -72,15 +72,11 @@ class MindmapAlgorithm extends BuchheimWalkerAlgorithm {
           (vertical ? maxNodeWidth : maxNodeHeight) / 2;
 
       if (vertical) {
-        node.position = Offset(
-            secondary - root.x * 0.5 * sideMultiplier,
-            sideMultiplier * distanceFromRoot
-        );
+        node.position = Offset(secondary - root.x * 0.5 * sideMultiplier,
+            sideMultiplier * distanceFromRoot);
       } else {
-        node.position = Offset(
-            sideMultiplier * distanceFromRoot,
-            secondary - root.y * 0.5 * sideMultiplier
-        );
+        node.position = Offset(sideMultiplier * distanceFromRoot,
+            secondary - root.y * 0.5 * sideMultiplier);
       }
     }
 

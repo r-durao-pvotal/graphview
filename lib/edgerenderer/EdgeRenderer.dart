@@ -3,9 +3,11 @@ part of graphview;
 abstract class EdgeRenderer {
   Map<Node, Offset>? _animatedPositions;
 
-  void setAnimatedPositions(Map<Node, Offset> positions) => _animatedPositions = positions;
+  void setAnimatedPositions(Map<Node, Offset> positions) =>
+      _animatedPositions = positions;
 
-  Offset getNodePosition(Node node) => _animatedPositions?[node] ?? node.position;
+  Offset getNodePosition(Node node) =>
+      _animatedPositions?[node] ?? node.position;
 
   void renderEdge(Canvas canvas, Edge edge, Paint paint);
 
@@ -88,7 +90,8 @@ abstract class EdgeRenderer {
   }
 
   /// Draws a sine wave line between two points
-  void drawSineLine(Canvas canvas, Offset source, Offset destination, Paint paint) {
+  void drawSineLine(
+      Canvas canvas, Offset source, Offset destination, Paint paint) {
     final originalStrokeWidth = paint.strokeWidth;
     paint.strokeWidth = 1.5;
 
@@ -184,9 +187,8 @@ abstract class EdgeRenderer {
 
     final metric = metrics.first;
     final totalLength = metric.length;
-    final effectiveArrowLength = arrowLength <= 0
-        ? 0.0
-        : min(arrowLength, totalLength * 0.3);
+    final effectiveArrowLength =
+        arrowLength <= 0 ? 0.0 : min(arrowLength, totalLength * 0.3);
     final arrowBaseOffset = max(0.0, totalLength - effectiveArrowLength);
     final arrowBaseTangent = metric.getTangentForOffset(arrowBaseOffset);
     final arrowTipTangent = metric.getTangentForOffset(totalLength);

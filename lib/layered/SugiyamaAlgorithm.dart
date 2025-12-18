@@ -81,7 +81,6 @@ class SugiyamaAlgorithm extends Algorithm {
     graph.edges.forEach((edge) {
       edgeData[edge] = SugiyamaEdgeData();
     });
-
   }
 
   void dfs(Node node) {
@@ -1203,14 +1202,14 @@ class SugiyamaAlgorithm extends Algorithm {
         if (existingEdge == null) {
           continue;
         }
-        final existingData = this.edgeData.remove(existingEdge);
+        final existingData = edgeData.remove(existingEdge);
         final bendPoints = existingData?.bendPoints ?? <double>[];
         graph.removeEdgeFromPredecessor(target, n);
         final edge = graph.addEdge(n, target);
 
         final restoredData = existingData ?? SugiyamaEdgeData();
         restoredData.bendPoints = bendPoints;
-        this.edgeData[edge] = restoredData;
+        edgeData[edge] = restoredData;
       }
 
       nodeInfo.reversed.clear();

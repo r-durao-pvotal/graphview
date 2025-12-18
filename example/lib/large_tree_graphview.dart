@@ -8,8 +8,8 @@ class LargeTreeViewPage extends StatefulWidget {
   _LargeTreeViewPageState createState() => _LargeTreeViewPageState();
 }
 
-class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProviderStateMixin {
-
+class _LargeTreeViewPageState extends State<LargeTreeViewPage>
+    with TickerProviderStateMixin {
   GraphViewController _controller = GraphViewController();
   final Random r = Random();
   int nextNodeId = 1;
@@ -30,7 +30,8 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.siblingSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Sibling Separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Sibling Separation'),
                     onChanged: (text) {
                       builder.siblingSeparation = int.tryParse(text) ?? 100;
                       this.setState(() {});
@@ -52,7 +53,8 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.subtreeSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Subtree separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Subtree separation'),
                     onChanged: (text) {
                       builder.subtreeSeparation = int.tryParse(text) ?? 100;
                       this.setState(() {});
@@ -73,7 +75,8 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
                 ElevatedButton(
                   onPressed: () {
                     final node12 = Node.Id(r.nextInt(100));
-                    var edge = graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
+                    var edge =
+                        graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
                     print(edge);
                     graph.addEdge(edge, node12);
                     setState(() {});
@@ -89,10 +92,14 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
                   onPressed: _resetView,
                   child: Text('Reset View'),
                 ),
-                SizedBox(width: 8,),
-                ElevatedButton(onPressed: (){
-                  _controller.zoomToFit();
-                }, child: Text('Zoom to fit'))
+                SizedBox(
+                  width: 8,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      _controller.zoomToFit();
+                    },
+                    child: Text('Zoom to fit'))
               ],
             ),
 
@@ -120,7 +127,9 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      boxShadow: [BoxShadow(color: Colors.blue[100]!, spreadRadius: 1)],
+                      boxShadow: [
+                        BoxShadow(color: Colors.blue[100]!, spreadRadius: 1)
+                      ],
                     ),
                     child: Text(
                       '${node.key?.value}',
@@ -135,7 +144,8 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
 
   final Graph graph = Graph()..isTree = true;
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
-  late final algorithm = BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder));
+  late final algorithm =
+      BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder));
 
   void _toggleCollapse(Node node) {
     _controller.toggleNodeExpanded(graph, node, animate: true);
@@ -186,5 +196,4 @@ class _LargeTreeViewPageState extends State<LargeTreeViewPage> with TickerProvid
       ..useCurvedConnections = true
       ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT);
   }
-
 }

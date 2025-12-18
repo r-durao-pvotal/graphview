@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:graphview/GraphView.dart';
@@ -88,9 +87,9 @@ void main() {
 
       // Should throw exception when cycle is detected
       expect(
-            () => algorithm.run(cyclicGraph, 0, 0),
+        () => algorithm.run(cyclicGraph, 0, 0),
         throwsA(isA<Exception>().having(
-              (e) => e.toString(),
+          (e) => e.toString(),
           'message',
           contains('Cyclic dependency detected'),
         )),

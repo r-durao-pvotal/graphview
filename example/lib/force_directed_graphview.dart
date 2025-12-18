@@ -78,8 +78,7 @@ class _GraphClusterViewPageState extends State<GraphClusterViewPage> {
     graph.addEdge(f, c);
     graph.addEdge(g, c);
     graph.addEdge(h, g);
-    var config = FruchtermanReingoldConfiguration()
-      ..iterations = 1000;
+    var config = FruchtermanReingoldConfiguration()..iterations = 1000;
     algorithm = FruchtermanReingoldAlgorithm(config);
   }
 }

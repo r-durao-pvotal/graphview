@@ -88,7 +88,8 @@ class CircleLayoutAlgorithm extends Algorithm {
     return components;
   }
 
-  void _dfsComponent(Graph graph, Node node, Set<Node> visited, Set<Node> component) {
+  void _dfsComponent(
+      Graph graph, Node node, Set<Node> visited, Set<Node> component) {
     visited.add(node);
     component.add(node);
 
@@ -254,7 +255,6 @@ class CircleLayoutAlgorithm extends Algorithm {
     final bounds = graph.calculateGraphBounds();
     return Size(bounds.width + 40, bounds.height + 40); // Add some padding
   }
-  
 
   void _shiftCoordinates(Graph graph, double shiftX, double shiftY) {
     for (final node in graph.nodes) {
@@ -272,7 +272,6 @@ class CircleLayoutAlgorithm extends Algorithm {
     // Implementation can be added if needed
   }
 
- 
   @override
   EdgeRenderer? renderer;
 }

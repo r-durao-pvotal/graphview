@@ -148,14 +148,14 @@ class BalloonLayoutAlgorithm extends Algorithm {
         parentLocation.dx - position.dx,
       );
 
-      final grandChildren = successorsOf(child)
-          .where((node) => !seen.contains(node))
-          .toList();
+      final grandChildren =
+          successorsOf(child).where((node) => !seen.contains(node)).toList();
 
       if (grandChildren.isNotEmpty) {
         final newSeen = Set<Node>.from(seen);
         newSeen.add(child); // Add current child to prevent cycles
-        _setPolars(grandChildren, position, newAngleToParent, childRadius, newSeen);
+        _setPolars(
+            grandChildren, position, newAngleToParent, childRadius, newSeen);
       }
     }
   }
@@ -191,7 +191,8 @@ class BalloonLayoutAlgorithm extends Algorithm {
           if (edge.source == current && !visited.contains(edge.destination)) {
             neighbor = edge.destination;
             spanningEdges.add(edge);
-          } else if (edge.destination == current && !visited.contains(edge.source)) {
+          } else if (edge.destination == current &&
+              !visited.contains(edge.source)) {
             neighbor = edge.source;
             spanningEdges.add(Edge(current, edge.source));
           }

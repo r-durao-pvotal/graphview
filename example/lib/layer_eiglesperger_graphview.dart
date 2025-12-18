@@ -4,10 +4,12 @@ import 'package:graphview/GraphView.dart';
 
 class LayeredEiglspergerGraphViewPage extends StatefulWidget {
   @override
-  _LayeredEiglspergerGraphViewPageState createState() => _LayeredEiglspergerGraphViewPageState();
+  _LayeredEiglspergerGraphViewPageState createState() =>
+      _LayeredEiglspergerGraphViewPageState();
 }
 
-class _LayeredEiglspergerGraphViewPageState extends State<LayeredEiglspergerGraphViewPage> {
+class _LayeredEiglspergerGraphViewPageState
+    extends State<LayeredEiglspergerGraphViewPage> {
   GraphViewController _controller = GraphViewController();
   final Random r = Random();
   int nextNodeId = 0;
@@ -61,7 +63,8 @@ class _LayeredEiglspergerGraphViewPageState extends State<LayeredEiglspergerGrap
                       Text('Alignment'),
                       DropdownButton<CoordinateAssignment>(
                         value: builder.coordinateAssignment,
-                        items: CoordinateAssignment.values.map((coordinateAssignment) {
+                        items: CoordinateAssignment.values
+                            .map((coordinateAssignment) {
                           return DropdownMenuItem<CoordinateAssignment>(
                             value: coordinateAssignment,
                             child: Text(coordinateAssignment.name),
@@ -79,7 +82,8 @@ class _LayeredEiglspergerGraphViewPageState extends State<LayeredEiglspergerGrap
                 ElevatedButton(
                   onPressed: () {
                     final node12 = Node.Id(r.nextInt(100));
-                    var edge = graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
+                    var edge =
+                        graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
                     print(edge);
                     graph.addEdge(edge, node12);
                     setState(() {});
@@ -139,7 +143,7 @@ class _LayeredEiglspergerGraphViewPageState extends State<LayeredEiglspergerGrap
     if (graph.nodes.isEmpty) return;
 
     final randomNode = graph.nodes.firstWhere(
-          (node) => node.key != null && node.key!.value == nextNodeId,
+      (node) => node.key != null && node.key!.value == nextNodeId,
       orElse: () => graph.nodes.first,
     );
     final nodeId = randomNode.key!;

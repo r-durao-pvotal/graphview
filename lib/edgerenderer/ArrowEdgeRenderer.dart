@@ -38,7 +38,8 @@ class ArrowEdgeRenderer extends EdgeRenderer {
       );
 
       if (loopResult != null) {
-        drawStyledPath(canvas, loopResult.path, currentPaint, lineType: lineType);
+        drawStyledPath(canvas, loopResult.path, currentPaint,
+            lineType: lineType);
 
         if (!noArrow) {
           final trianglePaint = Paint()
@@ -139,17 +140,17 @@ class ArrowEdgeRenderer extends EdgeRenderer {
       double lineStartY, double arrowTipX, double arrowTipY) {
     // Calculate direction from line start to arrow tip, then flip 180° to point backwards from tip
     var lineDirection =
-    (atan2(arrowTipY - lineStartY, arrowTipX - lineStartX) + pi);
+        (atan2(arrowTipY - lineStartY, arrowTipX - lineStartX) + pi);
 
     // Calculate the two base points of the arrowhead triangle
     var leftWingX =
-    (arrowTipX + ARROW_LENGTH * cos((lineDirection - ARROW_DEGREES)));
+        (arrowTipX + ARROW_LENGTH * cos((lineDirection - ARROW_DEGREES)));
     var leftWingY =
-    (arrowTipY + ARROW_LENGTH * sin((lineDirection - ARROW_DEGREES)));
+        (arrowTipY + ARROW_LENGTH * sin((lineDirection - ARROW_DEGREES)));
     var rightWingX =
-    (arrowTipX + ARROW_LENGTH * cos((lineDirection + ARROW_DEGREES)));
+        (arrowTipX + ARROW_LENGTH * cos((lineDirection + ARROW_DEGREES)));
     var rightWingY =
-    (arrowTipY + ARROW_LENGTH * sin((lineDirection + ARROW_DEGREES)));
+        (arrowTipY + ARROW_LENGTH * sin((lineDirection + ARROW_DEGREES)));
 
     // Draw the triangle: tip -> left wing -> right wing -> back to tip
     trianglePath.moveTo(arrowTipX, arrowTipY); // Arrow tip

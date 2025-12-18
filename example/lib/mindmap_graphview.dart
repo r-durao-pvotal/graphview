@@ -8,8 +8,8 @@ class MindMapPage extends StatefulWidget {
   _MindMapPageState createState() => _MindMapPageState();
 }
 
-class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin {
-
+class _MindMapPageState extends State<MindMapPage>
+    with TickerProviderStateMixin {
   GraphViewController _controller = GraphViewController();
   final Random r = Random();
   int nextNodeId = 1;
@@ -30,7 +30,8 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.siblingSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Sibling Separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Sibling Separation'),
                     onChanged: (text) {
                       builder.siblingSeparation = int.tryParse(text) ?? 100;
                       this.setState(() {});
@@ -52,7 +53,8 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.subtreeSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Subtree separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Subtree separation'),
                     onChanged: (text) {
                       builder.subtreeSeparation = int.tryParse(text) ?? 100;
                       this.setState(() {});
@@ -73,7 +75,8 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
                 ElevatedButton(
                   onPressed: () {
                     final node12 = Node.Id(r.nextInt(100));
-                    var edge = graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
+                    var edge =
+                        graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
                     print(edge);
                     graph.addEdge(edge, node12);
                     setState(() {});
@@ -89,10 +92,14 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
                   onPressed: _resetView,
                   child: Text('Reset View'),
                 ),
-                SizedBox(width: 8,),
-                ElevatedButton(onPressed: (){
-                  _controller.zoomToFit();
-                }, child: Text('Zoom to fit'))
+                SizedBox(
+                  width: 8,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      _controller.zoomToFit();
+                    },
+                    child: Text('Zoom to fit'))
               ],
             ),
 
@@ -100,15 +107,16 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
               child: GraphView.builder(
                 controller: _controller,
                 graph: graph,
-                algorithm: MindmapAlgorithm(
-                  builder, MindmapEdgeRenderer(builder)
-                ),
+                algorithm:
+                    MindmapAlgorithm(builder, MindmapEdgeRenderer(builder)),
                 builder: (Node node) => Container(
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
-                    boxShadow: [BoxShadow(color: Colors.blue[100]!, spreadRadius: 1)],
+                    boxShadow: [
+                      BoxShadow(color: Colors.blue[100]!, spreadRadius: 1)
+                    ],
                   ),
                   child: Text(
                     'Node ${node.key?.value}',
@@ -163,11 +171,10 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
   void initState() {
     super.initState();
 
-
 // Complex Mindmap Test - This will stress test the balancing algorithm
 
 // Create all nodes
-    final root = Node.Id(1);  // Central topic
+    final root = Node.Id(1); // Central topic
 
 // Left side - Technology branch (will be large)
     final tech = Node.Id(2);
@@ -175,26 +182,26 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
     final web = Node.Id(4);
     final mobile = Node.Id(5);
     final aiSubtopics = [
-      Node.Id(6),   // Machine Learning
-      Node.Id(7),   // Deep Learning
-      Node.Id(8),   // NLP
-      Node.Id(9),   // Computer Vision
+      Node.Id(6), // Machine Learning
+      Node.Id(7), // Deep Learning
+      Node.Id(8), // NLP
+      Node.Id(9), // Computer Vision
     ];
     final webSubtopics = [
-      Node.Id(10),  // Frontend
-      Node.Id(11),  // Backend
-      Node.Id(12),  // DevOps
+      Node.Id(10), // Frontend
+      Node.Id(11), // Backend
+      Node.Id(12), // DevOps
     ];
     final frontendDetails = [
-      Node.Id(13),  // React
-      Node.Id(14),  // Vue
-      Node.Id(15),  // Angular
+      Node.Id(13), // React
+      Node.Id(14), // Vue
+      Node.Id(15), // Angular
     ];
     final backendDetails = [
-      Node.Id(16),  // Node.js
-      Node.Id(17),  // Python
-      Node.Id(18),  // Java
-      Node.Id(19),  // Go
+      Node.Id(16), // Node.js
+      Node.Id(17), // Python
+      Node.Id(18), // Java
+      Node.Id(19), // Go
     ];
 
 // Right side - Business branch (will be smaller to test balancing)
@@ -203,12 +210,12 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
     final sales = Node.Id(22);
     final finance = Node.Id(23);
     final marketingDetails = [
-      Node.Id(24),  // Digital Marketing
-      Node.Id(25),  // Content Strategy
+      Node.Id(24), // Digital Marketing
+      Node.Id(25), // Content Strategy
     ];
     final salesDetails = [
-      Node.Id(26),  // B2B Sales
-      Node.Id(27),  // Customer Success
+      Node.Id(26), // B2B Sales
+      Node.Id(27), // Customer Success
     ];
 
 // Additional right side - Personal branch
@@ -216,14 +223,14 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
     final health = Node.Id(29);
     final hobbies = Node.Id(30);
     final healthDetails = [
-      Node.Id(31),  // Exercise
-      Node.Id(32),  // Nutrition
-      Node.Id(33),  // Mental Health
+      Node.Id(31), // Exercise
+      Node.Id(32), // Nutrition
+      Node.Id(33), // Mental Health
     ];
     final exerciseDetails = [
-      Node.Id(34),  // Cardio
-      Node.Id(35),  // Strength Training
-      Node.Id(36),  // Yoga
+      Node.Id(34), // Cardio
+      Node.Id(35), // Strength Training
+      Node.Id(36), // Yoga
     ];
 
 // Build the graph structure
@@ -248,12 +255,14 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
 
 // Frontend details (3rd level)
     for (final frontendNode in frontendDetails) {
-      graph.addEdge(webSubtopics[0], frontendNode, paint: Paint()..color = Colors.cyan);
+      graph.addEdge(webSubtopics[0], frontendNode,
+          paint: Paint()..color = Colors.cyan);
     }
 
 // Backend details (3rd level) - even deeper
     for (final backendNode in backendDetails) {
-      graph.addEdge(webSubtopics[1], backendNode, paint: Paint()..color = Colors.teal);
+      graph.addEdge(webSubtopics[1], backendNode,
+          paint: Paint()..color = Colors.teal);
     }
 
 // Business branch (right side - smaller subtree)
@@ -263,7 +272,8 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
 
 // Marketing details
     for (final marketingNode in marketingDetails) {
-      graph.addEdge(marketing, marketingNode, paint: Paint()..color = Colors.red);
+      graph.addEdge(marketing, marketingNode,
+          paint: Paint()..color = Colors.red);
     }
 
 // Sales details
@@ -277,12 +287,14 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
 
 // Health details
     for (final healthNode in healthDetails) {
-      graph.addEdge(health, healthNode, paint: Paint()..color = Colors.lightGreen);
+      graph.addEdge(health, healthNode,
+          paint: Paint()..color = Colors.lightGreen);
     }
 
 // Exercise details (3rd level)
     for (final exerciseNode in exerciseDetails) {
-      graph.addEdge(healthDetails[0], exerciseNode, paint: Paint()..color = Colors.amber);
+      graph.addEdge(healthDetails[0], exerciseNode,
+          paint: Paint()..color = Colors.amber);
     }
 
     builder
@@ -291,5 +303,4 @@ class _MindMapPageState extends State<MindMapPage> with TickerProviderStateMixin
       ..subtreeSeparation = (150)
       ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
   }
-
 }

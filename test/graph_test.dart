@@ -65,8 +65,7 @@ void main() {
       ];
 
       for (var node in nodes) {
-        var stopwatch = Stopwatch()
-          ..start();
+        var stopwatch = Stopwatch()..start();
         for (var i = 1; i <= rows; i++) {
           var hash = node.hashCode;
         }
@@ -119,8 +118,7 @@ void main() {
 
     test('SugiyamaAlgorithm handles single node self loop', () {
       final graph = Graph();
-      final node = Node.Id('self')
-        ..size = const Size(40, 40);
+      final node = Node.Id('self')..size = const Size(40, 40);
 
       graph.addEdge(node, node);
 

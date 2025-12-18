@@ -17,7 +17,8 @@ class AlgorithmSelectedVIewPage extends StatefulWidget {
   _TreeViewPageState createState() => _TreeViewPageState();
 }
 
-class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerProviderStateMixin {
+class _TreeViewPageState extends State<AlgorithmSelectedVIewPage>
+    with TickerProviderStateMixin {
   GraphViewController _controller = GraphViewController();
   final Random r = Random();
   int nextNodeId = 1;
@@ -54,7 +55,9 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
                           });
                         }
                       },
-                      items: LayoutAlgorithmType.values.map<DropdownMenuItem<LayoutAlgorithmType>>((LayoutAlgorithmType value) {
+                      items: LayoutAlgorithmType.values
+                          .map<DropdownMenuItem<LayoutAlgorithmType>>(
+                              (LayoutAlgorithmType value) {
                         return DropdownMenuItem<LayoutAlgorithmType>(
                           value: value,
                           child: Text(_getAlgorithmDisplayName(value)),
@@ -73,7 +76,8 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.siblingSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Sibling Separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Sibling Separation'),
                     onChanged: (text) {
                       builder.siblingSeparation = int.tryParse(text) ?? 100;
                       _updateAlgorithm();
@@ -97,7 +101,8 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
                   width: 100,
                   child: TextFormField(
                     initialValue: builder.subtreeSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Subtree separation'),
+                    decoration:
+                        InputDecoration(labelText: 'Subtree separation'),
                     onChanged: (text) {
                       builder.subtreeSeparation = int.tryParse(text) ?? 100;
                       _updateAlgorithm();
@@ -120,7 +125,8 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
                 ElevatedButton(
                   onPressed: () {
                     final node12 = Node.Id(r.nextInt(100));
-                    var edge = graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
+                    var edge =
+                        graph.getNodeAtPosition(r.nextInt(graph.nodeCount()));
                     print(edge);
                     graph.addEdge(edge, node12);
                     setState(() {});
@@ -136,31 +142,32 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
                   onPressed: _resetView,
                   child: Text('Reset View'),
                 ),
-                SizedBox(width: 8,),
+                SizedBox(
+                  width: 8,
+                ),
                 ElevatedButton(
-                    onPressed: (){
+                    onPressed: () {
                       _controller.zoomToFit();
                     },
-                    child: Text('Zoom to fit')
-                )
+                    child: Text('Zoom to fit'))
               ],
             ),
 
             Expanded(
                 child: GraphView.builder(
-                  controller: _controller,
-                  graph: graph,
-                  algorithm: _currentAlgorithm ?? TidierTreeLayoutAlgorithm(builder, null),
-                  builder: (Node node) => Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.lightBlue[100],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(node.key?.value.toString() ?? ''),
-                  ),
-                )
-            ),
+              controller: _controller,
+              graph: graph,
+              algorithm:
+                  _currentAlgorithm ?? TidierTreeLayoutAlgorithm(builder, null),
+              builder: (Node node) => Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.lightBlue[100],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(node.key?.value.toString() ?? ''),
+              ),
+            )),
           ],
         ));
   }
@@ -229,7 +236,7 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
     if (graph.nodes.isEmpty) return;
 
     final randomNode = graph.nodes.firstWhere(
-          (node) => node.key != null && node.key!.value == nextNodeId,
+      (node) => node.key != null && node.key!.value == nextNodeId,
       orElse: () => graph.nodes.first,
     );
     final nodeId = randomNode.key!;
@@ -251,19 +258,19 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
     var json = {
       'edges': [
         // A0 -> B0, B1, B2
-        {'from': 1, 'to': 2},   // A0 -> B0
-        {'from': 1, 'to': 3},   // A0 -> B1
-        {'from': 1, 'to': 4},   // A0 -> B2
+        {'from': 1, 'to': 2}, // A0 -> B0
+        {'from': 1, 'to': 3}, // A0 -> B1
+        {'from': 1, 'to': 4}, // A0 -> B2
 
         // B0 -> C0, C1, C2, C3
-        {'from': 2, 'to': 5},   // B0 -> C0
-        {'from': 2, 'to': 6},   // B0 -> C1
-        {'from': 2, 'to': 7},   // B0 -> C2
-        {'from': 2, 'to': 8},   // B0 -> C3
+        {'from': 2, 'to': 5}, // B0 -> C0
+        {'from': 2, 'to': 6}, // B0 -> C1
+        {'from': 2, 'to': 7}, // B0 -> C2
+        {'from': 2, 'to': 8}, // B0 -> C3
 
         // C2 -> H0, H1
-        {'from': 7, 'to': 9},   // C2 -> H0
-        {'from': 7, 'to': 10},  // C2 -> H1
+        {'from': 7, 'to': 9}, // C2 -> H0
+        {'from': 7, 'to': 10}, // C2 -> H1
 
         // H1 -> H2, H3
         {'from': 10, 'to': 11}, // H1 -> H2
@@ -278,14 +285,14 @@ class _TreeViewPageState extends State<AlgorithmSelectedVIewPage> with TickerPro
         {'from': 14, 'to': 16}, // H5 -> H7
 
         // B1 -> D0, D1, D2
-        {'from': 3, 'to': 17},  // B1 -> D0
-        {'from': 3, 'to': 18},  // B1 -> D1
-        {'from': 3, 'to': 19},  // B1 -> D2
+        {'from': 3, 'to': 17}, // B1 -> D0
+        {'from': 3, 'to': 18}, // B1 -> D1
+        {'from': 3, 'to': 19}, // B1 -> D2
 
         // B2 -> E0, E1, E2
-        {'from': 4, 'to': 20},  // B2 -> E0
-        {'from': 4, 'to': 21},  // B2 -> E1
-        {'from': 4, 'to': 22},  // B2 -> E2
+        {'from': 4, 'to': 20}, // B2 -> E0
+        {'from': 4, 'to': 21}, // B2 -> E1
+        {'from': 4, 'to': 22}, // B2 -> E2
 
         // D0 -> F0, F1, F2
         {'from': 17, 'to': 23}, // D0 -> F0

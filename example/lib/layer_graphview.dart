@@ -18,7 +18,8 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
     return Scaffold(
       backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        title: Text('Graph Visualizer', style: TextStyle(fontWeight: FontWeight.w600)),
+        title: Text('Graph Visualizer',
+            style: TextStyle(fontWeight: FontWeight.w600)),
         backgroundColor: Colors.white,
         foregroundColor: Colors.grey[800],
         elevation: 0,
@@ -59,7 +60,9 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 2))
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,23 +81,40 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
       spacing: 12,
       runSpacing: 12,
       children: [
-        _buildSliderControl('Node Sep', builder.nodeSeparation, 5, 50, (v) => builder.nodeSeparation = v),
-        _buildSliderControl('Level Sep', builder.levelSeparation, 5, 100, (v) => builder.levelSeparation = v),
-        _buildDropdown<CoordinateAssignment>('Alignment', builder.coordinateAssignment, CoordinateAssignment.values, (v) => builder.coordinateAssignment = v),
-        _buildDropdown<LayeringStrategy>('Layering', builder.layeringStrategy, LayeringStrategy.values, (v) => builder.layeringStrategy = v),
-        _buildDropdown<CrossMinimizationStrategy>('Cross Min', builder.crossMinimizationStrategy, CrossMinimizationStrategy.values, (v) => builder.crossMinimizationStrategy = v),
-        _buildDropdown<CycleRemovalStrategy>('Cycle Removal', builder.cycleRemovalStrategy, CycleRemovalStrategy.values, (v) => builder.cycleRemovalStrategy = v),
+        _buildSliderControl('Node Sep', builder.nodeSeparation, 5, 50,
+            (v) => builder.nodeSeparation = v),
+        _buildSliderControl('Level Sep', builder.levelSeparation, 5, 100,
+            (v) => builder.levelSeparation = v),
+        _buildDropdown<CoordinateAssignment>(
+            'Alignment',
+            builder.coordinateAssignment,
+            CoordinateAssignment.values,
+            (v) => builder.coordinateAssignment = v),
+        _buildDropdown<LayeringStrategy>('Layering', builder.layeringStrategy,
+            LayeringStrategy.values, (v) => builder.layeringStrategy = v),
+        _buildDropdown<CrossMinimizationStrategy>(
+            'Cross Min',
+            builder.crossMinimizationStrategy,
+            CrossMinimizationStrategy.values,
+            (v) => builder.crossMinimizationStrategy = v),
+        _buildDropdown<CycleRemovalStrategy>(
+            'Cycle Removal',
+            builder.cycleRemovalStrategy,
+            CycleRemovalStrategy.values,
+            (v) => builder.cycleRemovalStrategy = v),
       ],
     );
   }
 
-  Widget _buildSliderControl(String label, int value, int min, int max, Function(int) onChanged) {
+  Widget _buildSliderControl(
+      String label, int value, int min, int max, Function(int) onChanged) {
     return Container(
       width: 200,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+          Text(label,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
           Slider(
             value: value.toDouble().clamp(min.toDouble(), max.toDouble()),
             min: min.toDouble(),
@@ -108,13 +128,15 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
     );
   }
 
-  Widget _buildDropdown<T>(String label, T value, List<T> items, Function(T) onChanged) {
+  Widget _buildDropdown<T>(
+      String label, T value, List<T> items, Function(T) onChanged) {
     return Container(
       width: 160,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+          Text(label,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
           SizedBox(height: 4),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12),
@@ -126,7 +148,12 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
               child: DropdownButton<T>(
                 value: value,
                 isExpanded: true,
-                items: items.map((item) => DropdownMenuItem(value: item, child: Text(item.toString().split('.').last, style: TextStyle(fontSize: 12)))).toList(),
+                items: items
+                    .map((item) => DropdownMenuItem(
+                        value: item,
+                        child: Text(item.toString().split('.').last,
+                            style: TextStyle(fontSize: 12))))
+                    .toList(),
                 onChanged: (v) => setState(() => onChanged(v!)),
               ),
             ),
@@ -140,15 +167,26 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Edge Shape', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
+        Text('Edge Shape',
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500)),
         SizedBox(height: 8),
         Row(
           children: [
-            _buildShapeButton('Sharp', builder.bendPointShape is SharpBendPointShape, () => builder.bendPointShape = SharpBendPointShape()),
+            _buildShapeButton(
+                'Sharp',
+                builder.bendPointShape is SharpBendPointShape,
+                () => builder.bendPointShape = SharpBendPointShape()),
             SizedBox(width: 8),
-            _buildShapeButton('Curved', builder.bendPointShape is CurvedBendPointShape, () => builder.bendPointShape = CurvedBendPointShape(curveLength: 20)),
+            _buildShapeButton(
+                'Curved',
+                builder.bendPointShape is CurvedBendPointShape,
+                () => builder.bendPointShape =
+                    CurvedBendPointShape(curveLength: 20)),
             SizedBox(width: 8),
-            _buildShapeButton('Max Curved', builder.bendPointShape is MaxCurvedBendPointShape, () => builder.bendPointShape = MaxCurvedBendPointShape()),
+            _buildShapeButton(
+                'Max Curved',
+                builder.bendPointShape is MaxCurvedBendPointShape,
+                () => builder.bendPointShape = MaxCurvedBendPointShape()),
             Spacer(),
             Row(
               children: [
@@ -166,7 +204,8 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
     );
   }
 
-  Widget _buildShapeButton(String text, bool isSelected, VoidCallback onPressed) {
+  Widget _buildShapeButton(
+      String text, bool isSelected, VoidCallback onPressed) {
     return ElevatedButton(
       onPressed: () => setState(onPressed),
       child: Text(text, style: TextStyle(fontSize: 11)),
@@ -185,7 +224,9 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 2))],
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 2))
+        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -209,10 +250,19 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
                   end: Alignment.bottomRight,
                 ),
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.blue[100]!, blurRadius: 8, offset: Offset(0, 2))],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.blue[100]!,
+                      blurRadius: 8,
+                      offset: Offset(0, 2))
+                ],
               ),
               child: Center(
-                child: Text('$nodeId', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 14)),
+                child: Text('$nodeId',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14)),
               ),
             );
           },

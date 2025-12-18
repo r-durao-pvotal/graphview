@@ -860,16 +860,16 @@ void main() {
 
       print('Timetaken $timeTaken ${graph.nodeCount()}');
 
-    expect(graph.getNodeAtPosition(0).position, Offset(10.0, 1715.0));
-    expect(graph.getNodeAtPosition(6).position, Offset(815.0, 1757.5));
-    expect(graph.getNodeAtPosition(10).position, Offset(1160.0, 1872.5));
-    expect(graph.getNodeAtPosition(13).position, Offset(1275.0, 2117.5));
-    expect(graph.getNodeAtPosition(22).position, Offset(1620.0, 2635.0));
-    expect(graph.getNodeAtPosition(50).position, Offset(1505.0, 1232.5));
-    expect(graph.getNodeAtPosition(67).position, Offset(2655.0, 1700.0));
-    expect(graph.getNodeAtPosition(100).position, Offset(815.0, 412.5));
-    expect(graph.getNodeAtPosition(122).position, Offset(1735.0,2060.0));
-  });
+      expect(graph.getNodeAtPosition(0).position, Offset(10.0, 1715.0));
+      expect(graph.getNodeAtPosition(6).position, Offset(815.0, 1757.5));
+      expect(graph.getNodeAtPosition(10).position, Offset(1160.0, 1872.5));
+      expect(graph.getNodeAtPosition(13).position, Offset(1275.0, 2117.5));
+      expect(graph.getNodeAtPosition(22).position, Offset(1620.0, 2635.0));
+      expect(graph.getNodeAtPosition(50).position, Offset(1505.0, 1232.5));
+      expect(graph.getNodeAtPosition(67).position, Offset(2655.0, 1700.0));
+      expect(graph.getNodeAtPosition(100).position, Offset(815.0, 412.5));
+      expect(graph.getNodeAtPosition(122).position, Offset(1735.0, 2060.0));
+    });
 
     test('Sugiyama child nodes never overlaps', () {
       for (final json in exampleTrees) {

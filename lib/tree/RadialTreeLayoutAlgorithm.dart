@@ -180,19 +180,21 @@ class RadialTreeLayoutAlgorithm extends Algorithm {
 
   void _setRadialLocations(Graph graph) {
     final bounds = graph.calculateGraphBounds();
-    final maxPoint =  bounds.width;
+    final maxPoint = bounds.width;
 
     // Calculate theta step based on maximum x coordinate
     final theta = 2 * pi / maxPoint;
     final deltaRadius = 1.0;
-    final offset = _findRoots(graph).length > 1 ? config.levelSeparation.toDouble() : 0.0;
+    final offset =
+        _findRoots(graph).length > 1 ? config.levelSeparation.toDouble() : 0.0;
 
     for (final node in graph.nodes) {
       final position = node.position;
 
       // Convert cartesian tree coordinates to polar coordinates
       final polarTheta = position.dx * theta;
-      final polarRadius = (offset + position.dy - config.levelSeparation) * deltaRadius;
+      final polarRadius =
+          (offset + position.dy - config.levelSeparation) * deltaRadius;
 
       final polarPoint = PolarPoint.of(polarTheta, polarRadius);
       polarLocations[node] = polarPoint;
@@ -243,7 +245,8 @@ class RadialTreeLayoutAlgorithm extends Algorithm {
           if (edge.source == current && !visited.contains(edge.destination)) {
             neighbor = edge.destination;
             spanningEdges.add(edge);
-          } else if (edge.destination == current && !visited.contains(edge.source)) {
+          } else if (edge.destination == current &&
+              !visited.contains(edge.source)) {
             neighbor = edge.source;
             spanningEdges.add(Edge(current, edge.source));
           }
@@ -294,8 +297,6 @@ class RadialTreeLayoutAlgorithm extends Algorithm {
   List<Node> successorsOf(Node? node) {
     return nodeData[node]!.successorNodes;
   }
-
-
 
   @override
   EdgeRenderer? renderer;

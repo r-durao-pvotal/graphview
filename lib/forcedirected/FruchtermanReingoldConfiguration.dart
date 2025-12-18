@@ -22,17 +22,15 @@ class FruchtermanReingoldConfiguration {
   double movementThreshold;
   bool shuffleNodes = true;
 
-  FruchtermanReingoldConfiguration({
-    this.iterations = DEFAULT_ITERATIONS,
-    this.repulsionRate = DEFAULT_REPULSION_RATE,
-    this.attractionRate = DEFAULT_ATTRACTION_RATE,
-    this.repulsionPercentage = DEFAULT_REPULSION_PERCENTAGE,
-    this.attractionPercentage = DEFAULT_ATTRACTION_PERCENTAGE,
-    this.clusterPadding = DEFAULT_CLUSTER_PADDING,
-    this.epsilon = DEFAULT_EPSILON,
-    this.lerpFactor = DEFAULT_LERP_FACTOR,
-    this.movementThreshold = DEFAULT_MOVEMENT_THRESHOLD,
-    this.shuffleNodes = true
-  });
-
+  FruchtermanReingoldConfiguration(
+      {this.iterations = DEFAULT_ITERATIONS,
+      this.repulsionRate = DEFAULT_REPULSION_RATE,
+      this.attractionRate = DEFAULT_ATTRACTION_RATE,
+      this.repulsionPercentage = DEFAULT_REPULSION_PERCENTAGE,
+      this.attractionPercentage = DEFAULT_ATTRACTION_PERCENTAGE,
+      this.clusterPadding = DEFAULT_CLUSTER_PADDING,
+      this.epsilon = DEFAULT_EPSILON,
+      this.lerpFactor = DEFAULT_LERP_FACTOR,
+      this.movementThreshold = DEFAULT_MOVEMENT_THRESHOLD,
+      this.shuffleNodes = true});
 }

@@ -9,85 +9,27 @@ class LayerGraphPageFromJson extends StatefulWidget {
 }
 
 class _LayerGraphPageFromJsonState extends State<LayerGraphPageFromJson> {
-  var  json =   {
+  var json = {
     'edges': [
-      {
-        'from': '1',
-        'to': '2'
-      },
-      {
-        'from': '3',
-        'to': '2'
-      },
-      {
-        'from': '4',
-        'to': '5'
-      },
-      {
-        'from': '6',
-        'to': '4'
-      },
-      {
-        'from': '2',
-        'to': '4'
-      },
-      {
-        'from': '2',
-        'to': '7'
-      },
-      {
-        'from': '2',
-        'to': '8'
-      },
-      {
-        'from': '9',
-        'to': '10'
-      },
-      {
-        'from': '9',
-        'to': '11'
-      },
-      {
-        'from': '5',
-        'to': '12'
-      },
-      {
-        'from': '4',
-        'to': '9'
-      },
-      {
-        'from': '6',
-        'to': '13'
-      },
-      {
-        'from': '6',
-        'to': '14'
-      },
-      {
-        'from': '6',
-        'to': '15'
-      },
-      {
-        'from': '16',
-        'to': '3'
-      },
-      {
-        'from': '17',
-        'to': '3'
-      },
-      {
-        'from': '18',
-        'to': '16'
-      },
-      {
-        'from': '19',
-        'to': '17'
-      },
-      {
-        'from': '11',
-        'to': '1'
-      },
-
+      {'from': '1', 'to': '2'},
+      {'from': '3', 'to': '2'},
+      {'from': '4', 'to': '5'},
+      {'from': '6', 'to': '4'},
+      {'from': '2', 'to': '4'},
+      {'from': '2', 'to': '7'},
+      {'from': '2', 'to': '8'},
+      {'from': '9', 'to': '10'},
+      {'from': '9', 'to': '11'},
+      {'from': '5', 'to': '12'},
+      {'from': '4', 'to': '9'},
+      {'from': '6', 'to': '13'},
+      {'from': '6', 'to': '14'},
+      {'from': '6', 'to': '15'},
+      {'from': '16', 'to': '3'},
+      {'from': '17', 'to': '3'},
+      {'from': '18', 'to': '16'},
+      {'from': '19', 'to': '17'},
+      {'from': '11', 'to': '1'},
     ]
   };
 
@@ -144,7 +86,8 @@ class _LayerGraphPageFromJsonState extends State<LayerGraphPageFromJson> {
                       Text('Alignment'),
                       DropdownButton<CoordinateAssignment>(
                         value: builder.coordinateAssignment,
-                        items: CoordinateAssignment.values.map((coordinateAssignment) {
+                        items: CoordinateAssignment.values
+                            .map((coordinateAssignment) {
                           return DropdownMenuItem<CoordinateAssignment>(
                             value: coordinateAssignment,
                             child: Text(coordinateAssignment.name),
@@ -197,7 +140,7 @@ class _LayerGraphPageFromJsonState extends State<LayerGraphPageFromJson> {
     if (graph.nodes.isEmpty) return;
 
     final randomNode = graph.nodes.firstWhere(
-          (node) => node.key != null && node.key!.value == nextNodeId,
+      (node) => node.key != null && node.key!.value == nextNodeId,
       orElse: () => graph.nodes.first,
     );
     final nodeId = randomNode.key!;
@@ -207,7 +150,6 @@ class _LayerGraphPageFromJsonState extends State<LayerGraphPageFromJson> {
       nextNodeId = r.nextInt(graph.nodes.length) + 1;
     });
   }
-
 
   Widget rectangleWidget(String? a, Node node) {
     return Container(
@@ -244,9 +186,7 @@ class _LayerGraphPageFromJsonState extends State<LayerGraphPageFromJson> {
       ..nodeSeparation = (15)
       ..levelSeparation = (15)
       ..orientation = SugiyamaConfiguration.ORIENTATION_TOP_BOTTOM;
-    }
-
   }
+}
 
-  var builder = SugiyamaConfiguration();
-
+var builder = SugiyamaConfiguration();

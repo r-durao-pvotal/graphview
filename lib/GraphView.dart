@@ -110,8 +110,8 @@ class GraphViewController {
 
   void _markExpandingDescendants(Graph graph, Node node) {
     for (final child in graph.successorsOf(node)) {
-        expandingNodes[child] = true;
-        if (!collapsedNodes.containsKey(child)) {
+      expandingNodes[child] = true;
+      if (!collapsedNodes.containsKey(child)) {
         _markExpandingDescendants(graph, child);
       }
     }
@@ -299,6 +299,7 @@ class GraphView extends StatefulWidget {
   final bool animated;
   final GraphViewController? controller;
   final bool _isBuilder;
+  final bool _trackpadScrollCausesScale;
 
   Duration? panAnimationDuration;
   Duration? toggleAnimationDuration;
@@ -318,6 +319,7 @@ class GraphView extends StatefulWidget {
     this.toggleAnimationDuration,
     this.centerGraph = false,
   })  : _isBuilder = false,
+        _trackpadScrollCausesScale = false,
         delegate = GraphChildDelegate(
             graph: graph,
             algorithm: algorithm,
@@ -338,7 +340,9 @@ class GraphView extends StatefulWidget {
     this.panAnimationDuration,
     this.toggleAnimationDuration,
     this.centerGraph = false,
+    bool trackpadScrollCausesScale = false,
   })  : _isBuilder = true,
+        _trackpadScrollCausesScale = trackpadScrollCausesScale,
         delegate = GraphChildDelegate(
             graph: graph,
             algorithm: algorithm,
@@ -415,6 +419,7 @@ class _GraphViewState extends State<GraphView> with TickerProviderStateMixin {
           boundaryMargin: EdgeInsets.all(double.infinity),
           minScale: 0.01,
           maxScale: 10,
+          trackpadScrollCausesScale: widget._trackpadScrollCausesScale,
           builder: (context, viewport) {
             return view;
           });
@@ -492,8 +497,7 @@ class _GraphViewState extends State<GraphView> with TickerProviderStateMixin {
     _panController.reset();
     _panAnimation = Matrix4Tween(
             begin: _transformationController.value, end: target)
-        .animate(
-            CurvedAnimation(parent: _panController, curve: Curves.linear));
+        .animate(CurvedAnimation(parent: _panController, curve: Curves.linear));
     _panAnimation!.addListener(_onPanTick);
     _panController.forward();
   }
@@ -877,7 +881,7 @@ class RenderCustomLayoutBox extends RenderBox
       final expandingEdges =
           _delegate.controller?.getExpandingEdges(graph).toSet() ?? {};
 
-     for (final edge in graph.edges) {
+      for (final edge in graph.edges) {
         var edgePaintWithOpacity = Paint.from(edge.paint ?? edgePaint);
 
         // Apply fade effect for collapsing edges (fade out)

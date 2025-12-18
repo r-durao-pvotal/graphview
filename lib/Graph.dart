@@ -191,7 +191,6 @@ class Graph {
 
     return json.encode(jsonString);
   }
-
 }
 
 extension GraphExtension on Graph {
@@ -202,10 +201,10 @@ extension GraphExtension on Graph {
     var maxY = double.negativeInfinity;
 
     for (final node in nodes) {
-        minX = min(minX, node.x);
-        minY = min(minY, node.y);
-        maxX = max(maxX, node.x + node.width);
-        maxY = max(maxY, node.y + node.height);
+      minX = min(minX, node.x);
+      minY = min(minY, node.y);
+      maxX = max(maxX, node.x + node.width);
+      maxY = max(maxY, node.y + node.height);
     }
 
     return Rect.fromLTRB(minX, minY, maxX, maxY);

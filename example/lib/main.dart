@@ -166,7 +166,7 @@ class Home extends StatelessWidget {
               'Eiglesperger Algorithm (Broken)',
               Icons.layers,
               Colors.teal,
-                  () => LayeredEiglspergerGraphViewPage(),
+              () => LayeredEiglspergerGraphViewPage(),
             ),
           ]),
         ],

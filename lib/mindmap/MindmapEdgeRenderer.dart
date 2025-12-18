@@ -9,13 +9,15 @@ class MindmapEdgeRenderer extends TreeEdgeRenderer {
     var orientation = configuration.orientation;
 
     if (child.y < 0) {
-      if (configuration.orientation == BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM) {
+      if (configuration.orientation ==
+          BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM) {
         orientation = BuchheimWalkerConfiguration.ORIENTATION_BOTTOM_TOP;
       } else {
         // orientation = BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM;
       }
     } else if (child.x < 0) {
-      if (configuration.orientation == BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT) {
+      if (configuration.orientation ==
+          BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT) {
         orientation = BuchheimWalkerConfiguration.ORIENTATION_RIGHT_LEFT;
       } else {
         orientation = BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT;

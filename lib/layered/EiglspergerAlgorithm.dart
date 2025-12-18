@@ -66,7 +66,8 @@ class ContainerX {
   }
 
   @override
-  String toString() => 'Container(${segments.length} segments, pos: $pos, measure: $measure)';
+  String toString() =>
+      'Container(${segments.length} segments, pos: $pos, measure: $measure)';
 }
 
 class ContainerPair {
@@ -293,8 +294,11 @@ class EiglspergerAlgorithm extends Algorithm {
       var currentLayer = layers[i];
 
       for (var node in List.from(currentLayer)) {
-        final edges = graph.getOutEdges(node)
-            .where((e) => (nodeData[e.destination]!.layer - nodeData[node]!.layer).abs() > 1)
+        final edges = graph
+            .getOutEdges(node)
+            .where((e) =>
+                (nodeData[e.destination]!.layer - nodeData[node]!.layer).abs() >
+                1)
             .toList();
 
         for (var edge in edges) {
@@ -400,7 +404,6 @@ class EiglspergerAlgorithm extends Algorithm {
     final best = <List<Node>>[...layers];
 
     // Precalculate neighbor information
-
 
     var bestCrossCount = double.infinity;
 
@@ -516,16 +519,16 @@ class EiglspergerAlgorithm extends Algorithm {
         var node = element.node;
         var data = nodeData[node];
 
-        var shouldMerge = isForward ?
-        (data?.isPVertex ?? false) :
-        (data?.isQVertex ?? false);
+        var shouldMerge =
+            isForward ? (data?.isPVertex ?? false) : (data?.isQVertex ?? false);
 
         if (shouldMerge && data?.segment != null) {
           // Merge into container
           currentContainer ??= ContainerX();
           currentContainer.append(data!.segment!);
 
-          if (!processedElements.any((e) => e is ContainerElement && e.container == currentContainer)) {
+          if (!processedElements.any((e) =>
+              e is ContainerElement && e.container == currentContainer)) {
             processedElements.add(ContainerElement(currentContainer));
           }
         } else {
@@ -555,7 +558,8 @@ class EiglspergerAlgorithm extends Algorithm {
         var predecessors = predecessorsOf(node);
 
         if (predecessors.isNotEmpty) {
-          var positions = predecessors.map((p) => nodeData[p]?.position ?? 0).toList();
+          var positions =
+              predecessors.map((p) => nodeData[p]?.position ?? 0).toList();
           positions.sort();
           element.measure = medianValue(positions).toDouble();
         } else {
@@ -609,7 +613,8 @@ class EiglspergerAlgorithm extends Algorithm {
     layer.addAll(merged);
   }
 
-  List<LayerElement> mergeSortedLists(List<LayerElement> vertices, List<ContainerElement> containers) {
+  List<LayerElement> mergeSortedLists(
+      List<LayerElement> vertices, List<ContainerElement> containers) {
     var result = <LayerElement>[];
     var vIndex = 0;
     var cIndex = 0;
@@ -621,7 +626,8 @@ class EiglspergerAlgorithm extends Algorithm {
       if (vertex.measure <= container.pos) {
         result.add(vertex);
         vIndex++;
-      } else if (vertex.measure >= (container.pos + container.container.size() - 1)) {
+      } else if (vertex.measure >=
+          (container.pos + container.container.size() - 1)) {
         result.add(container);
         cIndex++;
       } else {
@@ -678,7 +684,8 @@ class EiglspergerAlgorithm extends Algorithm {
         // Find container containing this segment
         ContainerElement? containerElement;
         for (var element in layer) {
-          if (element is ContainerElement && element.container.contains(segment)) {
+          if (element is ContainerElement &&
+              element.container.contains(segment)) {
             containerElement = element;
             break;
           }
@@ -725,7 +732,8 @@ class EiglspergerAlgorithm extends Algorithm {
   double stepFive(List<LayerElement> currentLayer, List<LayerElement> nextLayer,
       int currentRank, int nextRank) {
     // Remove empty containers
-    currentLayer.removeWhere((e) => e is ContainerElement && e.container.isEmpty);
+    currentLayer
+        .removeWhere((e) => e is ContainerElement && e.container.isEmpty);
     nextLayer.removeWhere((e) => e is ContainerElement && e.container.isEmpty);
 
     updateIndices(currentLayer);
@@ -745,7 +753,8 @@ class EiglspergerAlgorithm extends Algorithm {
     // Add virtual edges for containers
     for (var element in nextLayer) {
       if (element is ContainerElement && element.container.size() > 0) {
-        var virtualEdge = VirtualEdge('virtual', element, element.container.size());
+        var virtualEdge =
+            VirtualEdge('virtual', element, element.container.size());
         allEdges.add(virtualEdge);
       } else if (element is NodeElement) {
         var data = nodeData[element.node];
@@ -760,7 +769,8 @@ class EiglspergerAlgorithm extends Algorithm {
     return countWeightedCrossings(allEdges, nextLayer);
   }
 
-  double countWeightedCrossings(List<dynamic> edges, List<LayerElement> nextLayer) {
+  double countWeightedCrossings(
+      List<dynamic> edges, List<LayerElement> nextLayer) {
     var crossings = 0.0;
 
     for (var i = 0; i < edges.length - 1; i++) {
@@ -794,7 +804,8 @@ class EiglspergerAlgorithm extends Algorithm {
     if (edge is VirtualEdge) {
       for (var i = 0; i < nextLayer.length; i++) {
         if ((nextLayer[i] is ContainerElement && nextLayer[i] == edge.target) ||
-            (nextLayer[i] is NodeElement && (nextLayer[i] as NodeElement).node == edge.target)) {
+            (nextLayer[i] is NodeElement &&
+                (nextLayer[i] as NodeElement).node == edge.target)) {
           return i;
         }
       }
@@ -851,7 +862,9 @@ class EiglspergerAlgorithm extends Algorithm {
 
   void updateNodePositions() {
     for (var layerIndex = 0; layerIndex < layers.length; layerIndex++) {
-      for (var nodeIndex = 0; nodeIndex < layers[layerIndex].length; nodeIndex++) {
+      for (var nodeIndex = 0;
+          nodeIndex < layers[layerIndex].length;
+          nodeIndex++) {
         var node = layers[layerIndex][nodeIndex];
         nodeData[node]?.position = nodeIndex;
 
@@ -936,7 +949,8 @@ class EiglspergerAlgorithm extends Algorithm {
           blockWidth[k][r] = max(
               blockWidth[k][r]!, vertical ? v.width + separation : v.height);
         });
-        horizontalCompactation(align[k], root[k], sink[k], shift[k], blockWidth[k], x[k], isLeftToRight, isDownward, layers, separation);
+        horizontalCompactation(align[k], root[k], sink[k], shift[k],
+            blockWidth[k], x[k], isLeftToRight, isDownward, layers, separation);
       }
     }
 
@@ -1049,7 +1063,6 @@ class EiglspergerAlgorithm extends Algorithm {
 
     // resolveOverlaps(coordinates);
 
-
     graph.nodes.forEach((v) {
       v.x = coordinates[v]!;
     });
@@ -1059,7 +1072,7 @@ class EiglspergerAlgorithm extends Algorithm {
     for (var layer in layers) {
       var layerNodes = List<Node>.from(layer);
       layerNodes.sort(
-              (a, b) => nodeData[a]!.position.compareTo(nodeData[b]!.position));
+          (a, b) => nodeData[a]!.position.compareTo(nodeData[b]!.position));
 
       var data = nodeData[layerNodes.first];
       if (data?.layer != 0) {
@@ -1179,9 +1192,9 @@ class EiglspergerAlgorithm extends Algorithm {
           final medians = adjNodes.length % 2 == 1
               ? [adjNodes[midLevelValue.floor()]]
               : [
-            adjNodes[midLevelValue.toInt() - 1],
-            adjNodes[midLevelValue.toInt()]
-          ];
+                  adjNodes[midLevelValue.toInt() - 1],
+                  adjNodes[midLevelValue.toInt()]
+                ];
 
           // For all median neighbours in direction of H
           for (var m in medians) {
@@ -1383,8 +1396,8 @@ class EiglspergerAlgorithm extends Algorithm {
         var h = nodeData[node]!.isDummy
             ? 0.0
             : vertical
-            ? node.height
-            : node.width;
+                ? node.height
+                : node.width;
         if (h > maxHeight) {
           maxHeight = h;
         }
@@ -1407,9 +1420,12 @@ class EiglspergerAlgorithm extends Algorithm {
         if (nodeData[current]!.isDummy) {
           final predecessor = graph.predecessorsOf(current)[0];
           final successor = graph.successorsOf(current)[0];
-          final bendPoints = _edgeData[graph.getEdgeBetween(predecessor, current)!]!.bendPoints;
+          final bendPoints =
+              _edgeData[graph.getEdgeBetween(predecessor, current)!]!
+                  .bendPoints;
 
-          if (bendPoints.isEmpty || !bendPoints.contains(current.x + predecessor.width / 2)) {
+          if (bendPoints.isEmpty ||
+              !bendPoints.contains(current.x + predecessor.width / 2)) {
             bendPoints.add(predecessor.x + predecessor.width / 2);
             bendPoints.add(predecessor.y + predecessor.height / 2);
             bendPoints.add(current.x + predecessor.width / 2);
@@ -1448,7 +1464,8 @@ class EiglspergerAlgorithm extends Algorithm {
     graph.nodes.forEach((n) {
       if (nodeData[n]!.isReversed) {
         nodeData[n]!.reversed.forEach((target) {
-          final bendPoints = _edgeData[graph.getEdgeBetween(target, n)!]!.bendPoints;
+          final bendPoints =
+              _edgeData[graph.getEdgeBetween(target, n)!]!.bendPoints;
           graph.removeEdgeFromPredecessor(target, n);
           final edge = graph.addEdge(n, target);
 
@@ -1519,7 +1536,8 @@ class EiglspergerAlgorithm extends Algorithm {
       final left = positions[mid - 1] - positions[0];
       final right = positions[positions.length - 1] - positions[mid];
       if (left + right == 0) return 0.0;
-      return (positions[mid - 1] * right + positions[mid] * left) / (left + right);
+      return (positions[mid - 1] * right + positions[mid] * left) /
+          (left + right);
     }
   }
 

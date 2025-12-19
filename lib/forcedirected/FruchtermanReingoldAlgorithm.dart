@@ -16,7 +16,10 @@ class FruchtermanReingoldAlgorithm implements Algorithm {
   @override
   EdgeRenderer? renderer;
 
-  FruchtermanReingoldAlgorithm(this.configuration, {this.renderer}) {
+  FruchtermanReingoldAlgorithm(
+    this.configuration, {
+    this.renderer,
+  }) {
     renderer = renderer ?? ArrowEdgeRenderer(noArrow: true);
   }
 

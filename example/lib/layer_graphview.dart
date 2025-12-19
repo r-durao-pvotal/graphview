@@ -7,11 +7,37 @@ class LayeredGraphViewPage extends StatefulWidget {
   _LayeredGraphViewPageState createState() => _LayeredGraphViewPageState();
 }
 
-class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
+class _LayeredGraphViewPageState extends State<LayeredGraphViewPage>
+    with SingleTickerProviderStateMixin {
   final GraphViewController _controller = GraphViewController();
   final Random r = Random();
   int nextNodeId = 0;
   bool _showControls = true;
+  late final AnimationController _edgeController;
+  late final Animation<double> edgeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeGraph();
+    _edgeController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    );
+
+    edgeAnimation = CurvedAnimation(
+      parent: _edgeController,
+      curve: Curves.linear, // important for constant speed
+    );
+
+    _edgeController.repeat();
+  }
+
+  @override
+  void dispose() {
+    _edgeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +59,11 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
             icon: Icon(Icons.shuffle),
             onPressed: _navigateToRandomNode,
             tooltip: 'Random Node',
+          ),
+          IconButton(
+            icon: Icon(Icons.expand),
+            onPressed: _toggleRandomNode,
+            tooltip: 'Expand/Collapse Node',
           ),
         ],
       ),
@@ -230,43 +261,53 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
-        child: GraphView.builder(
-          controller: _controller,
-          graph: graph,
-          algorithm: SugiyamaAlgorithm(builder),
-          paint: Paint()
-            ..color = Colors.blue[300]!
-            ..strokeWidth = 2
-            ..style = PaintingStyle.stroke,
-          builder: (Node node) {
-            final nodeId = node.key!.value as int;
-            return Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue[400]!, Colors.blue[600]!],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.blue[100]!,
-                      blurRadius: 8,
-                      offset: Offset(0, 2))
-                ],
-              ),
-              child: Center(
-                child: Text('$nodeId',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14)),
-              ),
-            );
-          },
-        ),
+        child: AnimatedBuilder(
+            animation: edgeAnimation,
+            builder: (context, child) {
+              return GraphView.builder(
+                controller: _controller,
+                graph: graph,
+                algorithm: SugiyamaAlgorithm(builder, animation: edgeAnimation),
+                paint: Paint()
+                  ..color = Colors.blue[300]!
+                  ..strokeWidth = 2
+                  ..style = PaintingStyle.stroke,
+                builder: (Node node) {
+                  final nodeId = node.key!.value as int;
+                  return InkWell(
+                    onTap: () {
+                      print('hello');
+                      _controller.toggleNodeExpanded(graph, node);
+                    },
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.blue[400]!, Colors.blue[600]!],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.blue[100]!,
+                              blurRadius: 8,
+                              offset: Offset(0, 2))
+                        ],
+                      ),
+                      child: Center(
+                        child: Text('$nodeId',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14)),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }),
       ),
     );
   }
@@ -284,10 +325,10 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
     _controller.animateToNode(randomNode.key!);
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _initializeGraph();
+  void _toggleRandomNode() {
+    if (graph.nodes.isEmpty) return;
+    final randomNode = graph.nodes[r.nextInt(graph.nodes.length)];
+    _controller.toggleNodeExpanded(graph, randomNode);
   }
 
   void _initializeGraph() {
@@ -316,41 +357,42 @@ class _LayeredGraphViewPageState extends State<LayeredGraphViewPage> {
     final node22 = Node.Id(22);
     final node23 = Node.Id(23);
 
-    graph.addEdge(node1, node13, paint: Paint()..color = Colors.red);
-    graph.addEdge(node1, node21);
-    graph.addEdge(node1, node4);
-    graph.addEdge(node1, node3);
-    graph.addEdge(node2, node3);
-    graph.addEdge(node2, node20);
-    graph.addEdge(node3, node4);
-    graph.addEdge(node3, node5);
-    graph.addEdge(node3, node23);
-    graph.addEdge(node4, node6);
-    graph.addEdge(node5, node7);
-    graph.addEdge(node6, node8);
-    graph.addEdge(node6, node16);
-    graph.addEdge(node6, node23);
-    graph.addEdge(node7, node9);
-    graph.addEdge(node8, node10);
-    graph.addEdge(node8, node11);
-    graph.addEdge(node9, node12);
-    graph.addEdge(node10, node13);
-    graph.addEdge(node10, node14);
-    graph.addEdge(node10, node15);
-    graph.addEdge(node11, node15);
-    graph.addEdge(node11, node16);
-    graph.addEdge(node12, node20);
-    graph.addEdge(node13, node17);
-    graph.addEdge(node14, node17);
-    graph.addEdge(node14, node18);
-    graph.addEdge(node16, node18);
-    graph.addEdge(node16, node19);
-    graph.addEdge(node16, node20);
-    graph.addEdge(node18, node21);
-    graph.addEdge(node19, node22);
-    graph.addEdge(node21, node23);
-    graph.addEdge(node22, node23);
-    graph.addEdge(node1, node22);
-    graph.addEdge(node7, node8);
+    graph.addEdge(node1, node13,
+        paint: Paint()..color = Colors.red, animate: true);
+    graph.addEdge(node1, node21, animate: true);
+    graph.addEdge(node1, node4, animate: true);
+    graph.addEdge(node1, node3, animate: true);
+    graph.addEdge(node2, node3, animate: true);
+    graph.addEdge(node2, node20, animate: true);
+    graph.addEdge(node3, node4, animate: true);
+    graph.addEdge(node3, node5, animate: true);
+    graph.addEdge(node3, node23, animate: true);
+    graph.addEdge(node4, node6, animate: true);
+    graph.addEdge(node5, node7, animate: true);
+    graph.addEdge(node6, node8, animate: true);
+    graph.addEdge(node6, node16, animate: true);
+    graph.addEdge(node6, node23, animate: true);
+    graph.addEdge(node7, node9, animate: true);
+    graph.addEdge(node8, node10, animate: true);
+    graph.addEdge(node8, node11, animate: true);
+    graph.addEdge(node9, node12, animate: true);
+    graph.addEdge(node10, node13, animate: true);
+    graph.addEdge(node10, node14, animate: true);
+    graph.addEdge(node10, node15, animate: true);
+    graph.addEdge(node11, node15, animate: true);
+    graph.addEdge(node11, node16, animate: true);
+    graph.addEdge(node12, node20, animate: true);
+    graph.addEdge(node13, node17, animate: true);
+    graph.addEdge(node14, node17, animate: true);
+    graph.addEdge(node14, node18, animate: true);
+    graph.addEdge(node16, node18, animate: true);
+    graph.addEdge(node16, node19, animate: true);
+    graph.addEdge(node16, node20, animate: true);
+    graph.addEdge(node18, node21, animate: true);
+    graph.addEdge(node19, node22, animate: true);
+    graph.addEdge(node21, node23, animate: true);
+    graph.addEdge(node22, node23, animate: true);
+    graph.addEdge(node1, node22, animate: true);
+    graph.addEdge(node7, node8, animate: true);
   }
 }

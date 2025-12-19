@@ -15,9 +15,10 @@ class SugiyamaAlgorithm extends Algorithm {
 
   var nodeCount = 1;
 
-  SugiyamaAlgorithm(this.configuration) {
+  SugiyamaAlgorithm(this.configuration, {Animation<double>? animation}) {
     renderer = SugiyamaEdgeRenderer(nodeData, edgeData,
-        configuration.bendPointShape, configuration.addTriangleToEdge);
+        configuration.bendPointShape, configuration.addTriangleToEdge,
+        animation: animation);
   }
 
   int get dummyId => 'Dummy ${nodeCount++}'.hashCode;

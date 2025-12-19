@@ -42,8 +42,13 @@ class Graph {
 
   void removeNodes(List<Node> nodes) => nodes.forEach((it) => removeNode(it));
 
-  Edge addEdge(Node source, Node destination, {Paint? paint}) {
-    final edge = Edge(source, destination, paint: paint);
+  Edge addEdge(
+    Node source,
+    Node destination, {
+    Paint? paint,
+    bool animate = false,
+  }) {
+    final edge = Edge(source, destination, paint: paint, animate: animate);
     addEdgeS(edge);
     return edge;
   }
@@ -281,8 +286,15 @@ class Edge {
 
   Key? key;
   Paint? paint;
+  bool animate;
 
-  Edge(this.source, this.destination, {this.key, this.paint});
+  Edge(
+    this.source,
+    this.destination, {
+    this.key,
+    this.paint,
+    this.animate = false,
+  });
 
   @override
   bool operator ==(Object? other) =>

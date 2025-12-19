@@ -6,12 +6,16 @@ class SugiyamaEdgeRenderer extends ArrowEdgeRenderer {
   BendPointShape bendPointShape;
   bool addTriangleToEdge;
   var path = Path();
+  final Animation<double>? animation;
 
-  SugiyamaEdgeRenderer(this.nodeData, this.edgeData, this.bendPointShape,
-      this.addTriangleToEdge);
+  SugiyamaEdgeRenderer(
+      this.nodeData, this.edgeData, this.bendPointShape, this.addTriangleToEdge,
+      {this.animation});
 
   bool hasBendEdges(Edge edge) =>
       edgeData.containsKey(edge) && edgeData[edge]!.bendPoints.isNotEmpty;
+
+  bool _shouldAnimate(Edge edge) => edge.animate;
 
   @override
   void render(Canvas canvas, Graph graph, Paint paint) {
@@ -75,6 +79,32 @@ class SugiyamaEdgeRenderer extends ArrowEdgeRenderer {
     } else {
       _renderStraightEdge(
           canvas, edge, currentPaint, edgeTrianglePaint ?? trianglePaint);
+    }
+  }
+
+  void _drawAnimatedCircle(Canvas canvas, Path path, Paint paint) {
+    final metrics = path.computeMetrics().toList();
+    if (metrics.isEmpty) return;
+
+    final totalLength = metrics.fold<double>(0, (sum, m) => sum + m.length);
+
+    if (totalLength == 0) return;
+
+    var targetDistance = totalLength * (animation?.value ?? 0);
+
+    for (final metric in metrics) {
+      if (targetDistance <= metric.length) {
+        final tangent = metric.getTangentForOffset(targetDistance);
+        if (tangent != null) {
+          canvas.drawCircle(
+            tangent.position,
+            4.0,
+            paint..style = PaintingStyle.fill,
+          );
+        }
+        return;
+      }
+      targetDistance -= metric.length;
     }
   }
 
@@ -157,6 +187,10 @@ class SugiyamaEdgeRenderer extends ArrowEdgeRenderer {
       path.lineTo(stopX, stopY);
     }
     canvas.drawPath(path, currentPaint);
+
+    if (_shouldAnimate(edge)) {
+      _drawAnimatedCircle(canvas, path, currentPaint);
+    }
   }
 
   void _renderStraightEdge(
@@ -183,8 +217,16 @@ class SugiyamaEdgeRenderer extends ArrowEdgeRenderer {
 
     // Draw the line with appropriate line type using the base class method
     final lineType = nodeData[destination]?.lineType;
-    drawStyledLine(canvas, sourceCenter, destCenter, currentPaint,
-        lineType: lineType);
+
+    final path = Path()
+      ..moveTo(sourceCenter.dx, sourceCenter.dy)
+      ..lineTo(destCenter.dx, destCenter.dy);
+
+    drawStyledPath(canvas, path, currentPaint, lineType: lineType);
+
+    if (_shouldAnimate(edge)) {
+      _drawAnimatedCircle(canvas, path, currentPaint);
+    }
   }
 
   void _drawSharpBendPointsEdge(List<Offset> bendPoints) {
